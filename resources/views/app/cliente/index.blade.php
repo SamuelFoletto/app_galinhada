@@ -40,7 +40,7 @@
             </div>
             <hr>
             @foreach($clientes as $cliente)
-                <div class="row border-bottom">
+                <div class="row" >
                     <div class="col col-lg-1">
                         {{$cliente->id}}
                     </div>
@@ -56,13 +56,14 @@
                     <div class="col col-lg-3" >
                         {{$cliente->telefone}}
                     </div>
-                    <div class="col col-md-auto fw-bolder" >
-                        <a href="{{route('cliente.show', $cliente->id)}}"><button class="btn btn-success fw-bold">Visualizar</button></a>
+                    <div class=" col-lg-1">
+                        <a href="{{route('cliente.show', $cliente->id)}}"><button class="btn btn-success fw-bold btn-sm">Visualizar</button></a>
                     </div>
-                    <div class="col col-md-auto fw-bolder">
-                        <a href="{{route('cliente.edit', $cliente->id)}}"><button class="btn btn-warning fw-bold">Editar</button></a>
+                    <div class=" col-lg-1 ">
+                        <a href="{{route('cliente.edit', $cliente->id)}}"><button class="btn btn-warning fw-bold btn-sm">Editar</button></a>
                     </div>
                 </div>
+                <hr>
             @endforeach
         </div>
 
