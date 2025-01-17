@@ -20,5 +20,7 @@
 
 @yield('conteudo')
 
+
+@include('site.layout.partials.rodape')
 </body>
 </html>

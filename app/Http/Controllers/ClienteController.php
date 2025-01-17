@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+    public function __construct(Cliente $cliente)
+    {
+        $this->cliente = $cliente;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -21,35 +25,16 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('app.cliente.create');
+        $clientes = Cliente::all();
+        return view('app.cliente.create', ['clientes' => $clientes]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)    {
-        $rules = [
-            'nome' => 'required|min:3|max:100',
-            'email' => 'required|email|unique:clientes',
-            'telefone' => 'required|min:10|max:12',
-            'endereco' => 'required|min:3|max:255',
-            'numero_casa' => 'required|numeric',
-            'bairro' => 'required',
-            'cep' => 'required|min:8|max:9',
-        ];
-        $feedback = [
-            'nome.min' => 'O ::attribute deve ter pelo menos :min caracteres',
-            'nome.max' => 'O ::attribute deve ter pelo menos :max caracteres',
-            'telefone.min' => 'O ::attribute deve ter pelo menos :min caracteres',
-            'telefone.max' => 'O ::attribute deve ter pelo menos :max caracteres',
-            'endereco.min' => 'O ::attribute deve ter pelo menos :min caracteres',
-            'endereco.max' => 'O ::attribute deve ter pelo menos :max caracteres',
-            'cep.min' => 'O ::attribute deve ter pelo menos :min caracteres',
-            'cep.max' => 'O ::attribute deve ter pelo menos :max caracteres',
-            'required' => 'O ::attribute é obrigatório'
-        ];
 
-        $request->validate($rules, $feedback);
+        $request->validate($this->cliente->rules(), $this->cliente->feedback());
 
         Cliente::create($request->all());
 
@@ -61,7 +46,8 @@ class ClienteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $cliente = Cliente::find($id);
+        return view('app.cliente.show', ['cliente' => $cliente]);
     }
 
     /**
@@ -69,15 +55,23 @@ class ClienteController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cliente = $this->cliente->find($id);
+        return view('app.cliente.edit', ['cliente' => $cliente]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+
+        $cliente = $this->cliente->find($id);
+
+        $request->validate($this->cliente->rules(), $this->cliente->feedback());
+
+        $cliente->update($request->all());
+
+        return redirect()->route('cliente.index');
     }
 
     /**
