@@ -9,7 +9,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="{{route('cliente.index')}}">Clientes</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{route('produto.index')}}">Produtos</a>
+                </li>
             </ul>
         </div>
     </div>

@@ -11,7 +11,7 @@
         <div>
             <ul class="d-flex justify-content-end list-unstyled">
                 <li class="me-2"><a href="{{route('cliente.create')}}"><button type="button" class="btn btn-primary btn-sm">Cadastrar</button></a></li>
-                <li class="me-2"><a href=""><button type="button" class="btn btn-primary btn-sm">Voltar</button></a></li>
+                <li class="me-2"><a href="{{route('site.main')}}"><button type="button" class="btn btn-primary btn-sm">Voltar</button></a></li>
             </ul>
         </div>
 
