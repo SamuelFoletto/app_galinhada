@@ -23,7 +23,6 @@ jobs:
     # 3. Copiar arquivos para uma pasta temporária
     - name: Copy files to deployment folder
       run: |
-        mkdir public
         cp resources/views/site/main.blade.php public/
 
     # 4. Publicar no branch gh-pages
