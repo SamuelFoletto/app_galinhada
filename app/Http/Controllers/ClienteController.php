@@ -46,7 +46,7 @@ class ClienteController extends Controller
      */
     public function show(string $id)
     {
-        $cliente = Cliente::find($id);
+        $cliente = $this->cliente->find($id);
         return view('app.cliente.show', ['cliente' => $cliente]);
     }
 
@@ -79,6 +79,7 @@ class ClienteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $cliente = $this->cliente->find($id)->delete();
+        return redirect()->route('cliente.index');
     }
 }

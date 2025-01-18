@@ -22,7 +22,7 @@
                     Cód. Cliente
                 </div>
 
-                <div class="col col-lg-4 fw-bolder" >
+                <div class="col col-lg-3 fw-bolder" >
                     Nome
                 </div>
 
@@ -45,7 +45,7 @@
                         {{$cliente->id}}
                     </div>
 
-                    <div class="col col-lg-4 " >
+                    <div class="col col-lg-3 " >
                         {{$cliente->nome}}
                     </div>
 
@@ -61,6 +61,13 @@
                     </div>
                     <div class=" col-lg-1 ">
                         <a href="{{route('cliente.edit', $cliente->id)}}"><button class="btn btn-warning fw-bold btn-sm">Editar</button></a>
+                    </div>
+                    <div class=" col-lg-1 ">
+                        <form action="{{route('cliente.destroy', ['cliente' => $cliente->id])}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger fw-bold btn-sm" type="submit">Excluir</button>
+                        </form>
                     </div>
                 </div>
                 <hr>

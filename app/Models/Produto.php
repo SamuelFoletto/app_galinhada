@@ -12,11 +12,29 @@ class Produto extends Model
     protected $fillable = [
         'nome_produto',
         'valor_produto',
-        'ingredientes',
+        'descricao',
         'peso',
     ];
 
-    protected $casts = [
-        'ingredientes' => 'array'
+    public function rules(){
+        return [
+            'nome_produto' => 'required',
+            'valor_produto' => 'required|numeric',
+            'descricao' => 'required|min:3|max:255',
+            'peso' => 'required|numeric'
+        ];
+    }
+
+    public function feedback()
+    {
+        return[
+            'valor_produto.numeric' => 'O valor deve ser um número válido',
+            'peso.numeric' => 'Informe apenas números',
+            'required' => 'O :attribute é um campo obrigatório'
     ];
+    }
+
+    public function pedidosProduto(){
+        return $this->hasMany('App\Models\Pedido', 'pedido_id', 'id');
+    }
 }

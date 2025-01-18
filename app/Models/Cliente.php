@@ -43,8 +43,14 @@ class Cliente extends Model
             'endereco.max' => 'O ::attribute deve ter pelo menos :max caracteres',
             'cep.min' => 'O ::attribute deve ter pelo menos :min caracteres',
             'cep.max' => 'O ::attribute deve ter pelo menos :max caracteres',
-            'required' => 'O ::attribute é obrigatório'
+            'required' => 'O ::attribute é obrigatório',
+            'email.unique' => 'O ::atribute já existe'
         ];
+    }
+
+
+    public function pedidosCliente(){
+        return $this->hasMany('App\Models\Pedido', 'cliente_id', 'id');
     }
 
 }
