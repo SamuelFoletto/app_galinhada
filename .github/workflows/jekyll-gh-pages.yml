@@ -3,31 +3,29 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # Substitua 'main' pelo branch onde você desenvolve
+      - gh-pages  # Substitua 'main' pelo branch onde você desenvolve
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checkout do código
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 2. Configurar o Node.js (caso necessário)
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18' # Substitua pela versão necessária
+        node-version: '18'
 
-    # 3. Copiar arquivos para uma pasta temporária
     - name: Copy files to deployment folder
       run: |
+        mkdir public
         cp resources/views/site/main.blade.php public/
 
-    # 4. Publicar no branch gh-pages
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
         publish_dir: ./public
