@@ -20,9 +20,13 @@ return new class extends Migration
             $table->integer('numero_casa');
             $table->string('complemento');
             $table->string('bairro');
+
             $table->string('cep');
             $table->softDeletes();
             $table->timestamps();
+
+
+
         });
     }
 

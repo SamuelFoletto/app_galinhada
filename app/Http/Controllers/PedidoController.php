@@ -19,7 +19,7 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.pedido.create');
     }
 
     /**

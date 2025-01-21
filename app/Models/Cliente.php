@@ -18,6 +18,7 @@ class Cliente extends Model
         'numero_casa',
         'complemento',
         'bairro',
+        'regiao_id',
         'cep'
     ];
 
@@ -51,6 +52,10 @@ class Cliente extends Model
 
     public function pedidosCliente(){
         return $this->hasMany('App\Models\Pedido', 'cliente_id', 'id');
+    }
+    public function regiao()
+    {
+        return $this->belongsTo(Regiao::class, 'regiao_id', 'id');
     }
 
 }

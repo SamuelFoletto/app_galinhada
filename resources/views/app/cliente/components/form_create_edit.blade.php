@@ -56,6 +56,14 @@
                             <input type="text" class="form-control w-100" name="cep" value="{{$cliente->cep ?? ''}}">
                             {{$errors->first('cep') ?? ''}}
                         </div>
+
+                        <select class="form-select mt-1 mb-1 w-50" name="regiao_id">
+                            <option>-- Selecione a Região --</option>
+                            @foreach($regioes as $regiao)
+                                <option value="{{$regiao->id}}"{{($cliente->regiao_id ?? old('regiao_id')) == $regiao->id ? 'selected' : ''}}>{{$regiao->nome_regiao}}</option>
+                                @endforeach
+                        </select>
+
                     </div>
                 </div>
 

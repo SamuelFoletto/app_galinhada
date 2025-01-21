@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Regiao;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -16,7 +17,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::with('regiao')->get();
+
         return view('app.cliente.index', ['clientes' => $clientes]);
     }
 
@@ -26,8 +28,10 @@ class ClienteController extends Controller
     public function create()
     {
         $clientes = Cliente::all();
-        return view('app.cliente.create', ['clientes' => $clientes]);
-    }
+        $regioes = Regiao::all();
+
+        return view('app.cliente.create', ['clientes' => $clientes, 'regioes' => $regioes]);
+          }
 
     /**
      * Store a newly created resource in storage.
@@ -55,8 +59,9 @@ class ClienteController extends Controller
      */
     public function edit(string $id)
     {
+        $regioes = Regiao::all();
         $cliente = $this->cliente->find($id);
-        return view('app.cliente.edit', ['cliente' => $cliente]);
+        return view('app.cliente.edit', ['cliente' => $cliente, 'regioes' => $regioes]);
     }
 
     /**

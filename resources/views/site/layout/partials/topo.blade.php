@@ -12,6 +12,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="{{route('produto.index')}}">Produtos</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{route('pedido.index')}}">Pedidos</a>
+                </li>
             </ul>
         </div>
     </div>

@@ -53,7 +53,10 @@
                 <div class="mb-1" style="width: 500px;">
                     <label for="exampleInputPassword1" class="form-label">CEP</label>
                     <input type="text" class="form-control w-100" name="cep" value="{{ $cliente->cep }}" disabled>
-
+                </div>
+                <div class="mb-1" style="width: 500px;">
+                    <label for="exampleInputPassword1" class="form-label">Região</label>
+                    <input type="text" class="form-control w-100" name="cep" value="{{ $cliente->regiao->nome_regiao}}" disabled>
                 </div>
             </div>
 

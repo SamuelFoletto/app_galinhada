@@ -9,7 +9,7 @@
         </ul>
     </div>
     <div class="w-100 mt-3">
-        @component('app.cliente.components.form_create_edit', ['clientes' => $clientes])
+        @component('app.cliente.components.form_create_edit', ['clientes' => $clientes, 'regioes' => $regioes])
         @endcomponent
 
     </div>
