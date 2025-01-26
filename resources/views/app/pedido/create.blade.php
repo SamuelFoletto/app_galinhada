@@ -9,7 +9,7 @@
         </ul>
     </div>
     <div class="w-100 mt-3">
-        @component('app.pedido.components.form_create_edit')
+        @component('app.pedido.components.form_create', ['clientes' => $clientes])
         @endcomponent
 
     </div>
