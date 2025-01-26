@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rule;
 
 class Pedido extends Model
 {
@@ -19,8 +21,21 @@ class Pedido extends Model
 
     ];
 
+    public function rules(){
+        return [
+            'cliente_id' => 'required',
+            'produto_id' => 'required',
+            'quantidade' => 'required',
+            'forma_pagamento' => 'required',
+        ];
+    }
 
+    public function feedback(){
+        return[
+            'required' => 'O campo ::attribute é obrigatório'
 
+        ];
+    }
 
     public function cliente()
     {
@@ -31,4 +46,14 @@ class Pedido extends Model
     {
         return $this->belongsToMany('App\Models\Produto', 'produto_id', 'id');
     }
+
+    public function status(){
+        return $this->hasOne('App\Models\StatusPedido', 'status', 'id');
+    }
+    public function formaPagamento(){
+        return $this->belongsTo('App\Models\FormaPagamento', 'forma_pagamento', 'id');
+    }
+
+
+
 }

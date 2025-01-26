@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Pedido;
+use App\Models\FormaPagamento;
+use App\Models\Produto;
+use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Models\StatusPedido;
 
 class PedidoController extends Controller
 {
+    public function __construct(Pedido $pedido){
+        $this->pedido = $pedido;
+    }
 
     public function buscarCliente($id){
         $cliente = Cliente::with('regiao')->find($id);
@@ -52,56 +58,45 @@ class PedidoController extends Controller
 
     }
 
-
     public function index()
     {
         return view('app.pedido.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
+        $produtos = Produto::all();
         $clientes = Cliente::all();
-        return view('app.pedido.create', ['clientes' => $clientes]);
+        $formasPagamento = FormaPagamento::all();
+        $statusAtual = StatusPedido::find(1);
+        return view('app.pedido.create', ['clientes' => $clientes, 'produtos' => $produtos, 'formasPagamento' => $formasPagamento, 'statusAtual' => $statusAtual->status_pedido_atual]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+
+        $request->validate($this->pedido->rules(), $this->pedido->feedback());
+
+        Pedido::create($request->all());
+
+        return redirect()->route('pedido.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

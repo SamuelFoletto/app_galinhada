@@ -1,7 +1,7 @@
             <form action="{{route('pedido.store')}}" method="post" class="w-100 d-flex" style="border: 1px solid #ccc;">
                 @csrf
                 <div class="w-50 px-4">
-                    <!-- Informar ID ou Nome do Cliente -->
+                    <h3>Dados do cliente</h3>
                     <div class="mb-3">
                         <label for="campo-buscar-cliente" class="form-label">ID ou Nome do Cliente</label>
                         <input type="text" id="campo-buscar-cliente" name="buscar_cliente" class="form-control w-50" placeholder="Digite o ID ou Nome do cliente">
@@ -10,9 +10,12 @@
 
 
                     <div class="mb-3">
+                        <label for="cliente-id" class="form-label">ID</label>
+                        <input type="text" id="cliente-id" name="cliente_id" class="form-control w-25" readonly>
+                        {{$errors->first('cliente_id') ?? ''}}
+
                         <label for="cliente-nome" class="form-label">Nome do Cliente</label>
                         <input type="text" id="cliente-nome" name="cliente_nome" class="form-control w-50" readonly>
-
                         <label for="cliente-endereco" class="form-label">Endereco</label>
                         <input type="text" id="cliente-endereco" name="cliente_endereco" class="form-control w-50" readonly>
 
@@ -22,73 +25,88 @@
                         <label for="cliente-regiao" class="form-label">Região</label>
                         <input type="text" id="cliente-regiao" name="cliente_regiao" class="form-control w-50" readonly>
 
-                        <input type="hidden" id="cliente-id" name="cliente_id">
+
                     </div>
                 </div>
 
-                <div>
+                <div class="w-50 px-4">
+                    <h3>Dados do Pedido</h3>
                     <div class="mb-3">
-                        <label for="produto-nome" class="form-label">Nome do Produto</label>
-                        <input type="text" id="produto-nome" name="produto_nome" class="form-control" placeholder="Digite o nome do produto">
-
-                        <label for="produto-quantidade" class="form-label mt-3">Quantidade</label>
-                        <input type="number" id="produto-quantidade" name="produto_quantidade" class="form-control" min="1" placeholder="Digite a quantidade">
+                        <label for="produto-id" class="form-label">Produto</label>
+                        <select id="produto-id" name="produto_id" class="form-control">
+                            <option value="" data-valor="0">Selecione um produto</option>
+                            @foreach($produtos as $produto)
+                                <option value="{{ $produto->id }}" data-valor="{{$produto->valor_produto}}">{{ $produto->nome_produto}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <!-- Botão para Adicionar Produto -->
-                    <button type="button" id="btn-adicionar-produto" class="btn btn-success mb-3">Adicionar Produto</button>
-
-                    <!-- Lista de Produtos Adicionados -->
-                    <div id="produtos-lista" class="mt-3">
-                        <h5>Produtos Adicionados:</h5>
-                        <ul id="lista-produtos-ul"></ul> <!-- Lista para exibir produtos -->
+                    <div class="mb-3">
+                        <label for="produto-quantidade" class="form-label">Quantidade</label>
+                        <input type="number" id="produto-quantidade" name="produto_quantidade" class="form-control" min="1" value="1">
                     </div>
 
+                    <div class="mb-3">
+                        <label for="produto-valor-total" class="form-label">Valor Total</label>
+                        <input type="text" id="produto-valor-total" class="form-control" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Formas de Pagamento</label>
+                        <select name="forma-pagamento" class="form-control">
+                            <option>Selecione a forma de pagamentoo</option>
+                            @foreach($formasPagamento as $pagamento)
+                                <option value="{{ $pagamento->id}}">{{ $pagamento->nome_forma_pagamento}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="status" value="{{ $statusAtual }}">
                 </div>
 
+                <button type="submit" class="btn btn-primary mt-4">Criar Pedido</button>
 
+            </form>
 
-                    </form>
-            <button type="submit" class="btn btn-primary mt-4">Criar Pedido</button>
 
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const btnBuscarCliente = document.getElementById('btn-buscar-cliente');
             const campoBuscarCliente = document.getElementById('campo-buscar-cliente');
+            const clienteId = document.getElementById('cliente-id');
             const clienteNome = document.getElementById('cliente-nome');
             const clienteEndereco = document.getElementById('cliente-endereco');
             const clienteCep = document.getElementById('cliente-cep');
             const clienteRegiao = document.getElementById('cliente-regiao');
+            const produtoSelect = document.getElementById('produto-id');
+            const quantidadeInput = document.getElementById('produto-quantidade');
+            const valorTotalInput = document.getElementById('produto-valor-total');
 
 
-            // Evento do botão "Buscar"
+            //botão de buscar cliente
             btnBuscarCliente.addEventListener('click', function () {
-                const valor = campoBuscarCliente.value.trim(); // Pega o valor do campo
+                const valor = campoBuscarCliente.value.trim();
 
-                // Valida se o campo está vazio
                 if (!valor) {
                     alert('Por favor, informe um ID ou Nome para buscar o cliente.');
                     return;
                 }
 
-                // Verificar se o valor é numérico (ID) ou texto (Nome)
                 if (!isNaN(valor)) {
-                    // Se for um número, buscar pelo ID
                     buscarClientePorId(valor);
                 } else {
-                    // Se for texto, buscar pelo Nome
                     buscarClientePorNome(valor);
                 }
             });
 
-// Função para buscar cliente pelo ID
+            // Função para buscar cliente pelo ID
             function buscarClientePorId(id) {
                 axios.get(`/pedidos/cliente/${id}`)
                     .then(response => {
                         const cliente = response.data;
 
-                        // Concatene o endereço com número, complemento e bairro
+                        clienteId.value = cliente.id;
                         clienteNome.value = cliente.nome;
                         clienteEndereco.value = `${cliente.endereco}, ${cliente.numero_casa || ''} ${cliente.complemento || ''} - ${cliente.bairro || ''}`.trim();
                         clienteCep.value = cliente.cep;
@@ -103,7 +121,7 @@
                             alert('Ocorreu um erro ao buscar o cliente.');
                         }
 
-                        // Limpar os campos em caso de erro
+                        clienteId.value = '';
                         clienteNome.value = '';
                         clienteEndereco.value = '';
                         clienteCep.value = '';
@@ -111,24 +129,24 @@
                     });
             }
 
-// Função para buscar cliente pelo Nome
+            // Função para buscar cliente pelo Nome
             function buscarClientePorNome(nome) {
                 axios.get(`/pedidos/buscar-cliente?nome=${encodeURIComponent(nome)}`)
                     .then(response => {
                         const clientes = response.data;
 
                         if (clientes.length > 0) {
-                            // Caso encontre um cliente, preenchendo apenas o primeiro (ajuste conforme necessidade)
+
                             const cliente = clientes[0];
                             clienteNome.value = cliente.nome;
-
-                            // Concatenação de endereço completo
+                            clienteId.value = cliente.id;
                             clienteEndereco.value = `${cliente.endereco}, ${cliente.numero_casa || ''} ${cliente.complemento || ''} - ${cliente.bairro || ''}`.trim();
                             clienteCep.value = cliente.cep;
                             clienteRegiao.value = cliente.nome_regiao;
                         } else {
                             alert('Nenhum cliente encontrado com o nome informado.');
                             clienteNome.value = '';
+                            clienteId.value = '';
                             clienteEndereco.value = '';
                             clienteCep.value = '';
                             clienteRegiao.value = '';
@@ -138,10 +156,25 @@
                         console.error('Erro ao buscar cliente por nome:', error);
                         alert('Ocorreu um erro ao buscar o cliente.');
                         clienteNome.value = '';
+                        clienteId.value = '';
                         clienteEndereco.value = '';
                         clienteCep.value = '';
                         clienteRegiao.value = '';
                     });
             }
+
+            function atualizarValorTotal() {
+                const valorUnitario = parseFloat(produtoSelect.selectedOptions[0].getAttribute('data-valor')) || 0; // Valor do produto selecionado
+                const quantidade = parseInt(quantidadeInput.value) || 1; // Quantidade informada
+
+                // Calcula o valor total
+                const valorTotal = valorUnitario * quantidade;
+
+                valorTotalInput.value = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+            }
+
+            produtoSelect.addEventListener('change', atualizarValorTotal);
+            quantidadeInput.addEventListener('input', atualizarValorTotal);
+            atualizarValorTotal();
         });
     </script>
