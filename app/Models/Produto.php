@@ -34,7 +34,7 @@ class Produto extends Model
     ];
     }
 
-    public function pedidosProduto(){
+    public function produto(){
         return $this->hasMany('App\Models\Pedido', 'pedido_id', 'id');
     }
 }

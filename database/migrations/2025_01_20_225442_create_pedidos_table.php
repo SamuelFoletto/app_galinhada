@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('quantidade');
             $table->decimal('valor_total', 4, 2);
             $table->date('data_pedido');
-            $table->string('forma_pagamento');
+            $table->unsignedBigInteger('forma_pagamento');
             $table->string('status');
             $table->softDeletes();
             $table->timestamps();
@@ -27,6 +27,7 @@ return new class extends Migration
 
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->foreign('forma_pagamento')->references('id')->on('forma_pagamento');
         });
     }
 

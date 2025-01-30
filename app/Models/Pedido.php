@@ -21,6 +21,17 @@ class Pedido extends Model
 
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($pedido) {
+            // Copia o valor do created_at para data_pedido
+            $pedido->data_pedido = now();
+        });
+    }
+
+
     public function rules(){
         return [
             'cliente_id' => 'required',
@@ -42,17 +53,20 @@ class Pedido extends Model
         return $this->belongsTo('App\Models\Cliente', 'cliente_id', 'id');
     }
 
-    public function produtos()
+    public function produto()
     {
-        return $this->belongsToMany('App\Models\Produto', 'produto_id', 'id');
+        return $this->belongsTo('App\Models\Produto', 'produto_id', 'id');
     }
 
     public function status(){
         return $this->hasOne('App\Models\StatusPedido', 'status', 'id');
     }
+
     public function formaPagamento(){
         return $this->belongsTo('App\Models\FormaPagamento', 'forma_pagamento', 'id');
     }
+
+
 
 
 

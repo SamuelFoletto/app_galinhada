@@ -25,7 +25,7 @@ class Cliente extends Model
     public function rules(){
         return [
             'nome' => 'required|min:3|max:100',
-            'email' => 'required|email', Rule::unique('clientes')->ignore($this->id),
+            'email' => 'required',
             'telefone' => 'required|min:10|max:12',
             'endereco' => 'required|min:3|max:255',
             'numero_casa' => 'required|numeric',
@@ -45,7 +45,6 @@ class Cliente extends Model
             'cep.min' => 'O ::attribute deve ter pelo menos :min caracteres',
             'cep.max' => 'O ::attribute deve ter pelo menos :max caracteres',
             'required' => 'O ::attribute é obrigatório',
-            'email.unique' => 'O ::atribute já existe'
         ];
     }
 

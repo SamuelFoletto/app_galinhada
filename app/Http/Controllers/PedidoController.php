@@ -60,7 +60,8 @@ class PedidoController extends Controller
 
     public function index()
     {
-        return view('app.pedido.index');
+        $pedidos = Pedido::with('cliente', 'produto')->get();
+        return view('app.pedido.index', ['pedidos' => $pedidos]);
     }
 
     public function create()
@@ -74,11 +75,8 @@ class PedidoController extends Controller
 
     public function store(Request $request)
     {
-
-        $request->validate($this->pedido->rules(), $this->pedido->feedback());
-
+//        dd($request->all());
         Pedido::create($request->all());
-
         return redirect()->route('pedido.index');
     }
 

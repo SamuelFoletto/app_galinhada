@@ -12,7 +12,7 @@
                     <div class="mb-3">
                         <label for="cliente-id" class="form-label">ID</label>
                         <input type="text" id="cliente-id" name="cliente_id" class="form-control w-25" readonly>
-                        {{$errors->first('cliente_id') ?? ''}}
+
 
                         <label for="cliente-nome" class="form-label">Nome do Cliente</label>
                         <input type="text" id="cliente-nome" name="cliente_nome" class="form-control w-50" readonly>
@@ -42,18 +42,18 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="produto-quantidade" class="form-label">Quantidade</label>
-                        <input type="number" id="produto-quantidade" name="produto_quantidade" class="form-control" min="1" value="1">
+                        <label for="quantidade" class="form-label">Quantidade</label>
+                        <input type="number" id="quantidade" name="quantidade" class="form-control" min="1" value="1">
                     </div>
 
                     <div class="mb-3">
-                        <label for="produto-valor-total" class="form-label">Valor Total</label>
-                        <input type="text" id="produto-valor-total" class="form-control" readonly>
+                        <label for="valor_total" class="form-label">Valor Total</label>
+                        <input type="text" id="valor_total" class="form-control" name="valor_total" readonly>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Formas de Pagamento</label>
-                        <select name="forma-pagamento" class="form-control">
+                        <select name="forma_pagamento" class="form-control" >
                             <option>Selecione a forma de pagamentoo</option>
                             @foreach($formasPagamento as $pagamento)
                                 <option value="{{ $pagamento->id}}">{{ $pagamento->nome_forma_pagamento}}</option>
@@ -80,8 +80,8 @@
             const clienteCep = document.getElementById('cliente-cep');
             const clienteRegiao = document.getElementById('cliente-regiao');
             const produtoSelect = document.getElementById('produto-id');
-            const quantidadeInput = document.getElementById('produto-quantidade');
-            const valorTotalInput = document.getElementById('produto-valor-total');
+            const quantidadeInput = document.getElementById('quantidade');
+            const valorTotalInput = document.getElementById('valor_total');
 
 
             //botão de buscar cliente
@@ -170,7 +170,7 @@
                 // Calcula o valor total
                 const valorTotal = valorUnitario * quantidade;
 
-                valorTotalInput.value = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+                valorTotalInput.value = `${valorTotal.toFixed(2).replace(',', '.')}`;
             }
 
             produtoSelect.addEventListener('change', atualizarValorTotal);
