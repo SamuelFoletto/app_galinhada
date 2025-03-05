@@ -25,7 +25,7 @@ class Cliente extends Model
     public function rules(){
         return [
             'nome' => 'required|min:3|max:100',
-            'email' => 'required',
+            'email' => 'required|unique:clientes,email,'.$this->id.'|email',
             'telefone' => 'required|min:10|max:12',
             'endereco' => 'required|min:3|max:255',
             'numero_casa' => 'required|numeric',

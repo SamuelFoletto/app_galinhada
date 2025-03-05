@@ -12,9 +12,8 @@ class ClienteController extends Controller
     {
         $this->cliente = $cliente;
     }
-    /**
-     * Display a listing of the resource.
-     */
+
+
     public function index()
     {
         $clientes = Cliente::with('regiao')->get();
@@ -22,9 +21,7 @@ class ClienteController extends Controller
         return view('app.cliente.index', ['clientes' => $clientes]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         $clientes = Cliente::all();
@@ -33,30 +30,40 @@ class ClienteController extends Controller
         return view('app.cliente.create', ['clientes' => $clientes, 'regioes' => $regioes]);
           }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)    {
 
         $request->validate($this->cliente->rules(), $this->cliente->feedback());
 
-        Cliente::create($request->all());
+        $cliente = $this->cliente->create([
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'telefone' => $request->telefone,
+            'endereco' => $request->endereco,
+            'numero_casa' => $request->numero_casa,
+            'complemento' => $request->complemento,
+            'bairro' => $request->bairro,
+            'regiao_id' => $request->regiao_id,
+            'cep' => $request->cep,
+        ]);
 
-        return redirect()->route('cliente.index');
+        return response()->json($cliente, 201);
+
+
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         $cliente = $this->cliente->find($id);
-        return view('app.cliente.show', ['cliente' => $cliente]);
+
+        if (!$cliente) {
+            return response()->json(['Erro:' => 'Cliente não existe']);
+        }
+        return ($cliente);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $regioes = Regiao::all();
@@ -64,27 +71,45 @@ class ClienteController extends Controller
         return view('app.cliente.edit', ['cliente' => $cliente, 'regioes' => $regioes]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, $id)
     {
 
         $cliente = $this->cliente->find($id);
 
-        $request->validate($this->cliente->rules(), $this->cliente->feedback());
+        if (!$cliente){
+            return response()->json(['Erro:' => 'Cliente não existe']);
+        }
 
-        $cliente->update($request->all());
+        if($request->method() === 'PATCH'){
+            $regrasDinamicas = array();
+            foreach ($cliente->rules() as $input => $regra){
 
-        return redirect()->route('cliente.index');
+                if(array_key_exists($input, $request->all())){
+                    $regrasDinamicas[$input] = $regra;
+                }
+            }
+
+            $request->validate($regrasDinamicas, $cliente->feedback());
+        } else {
+
+            $request->validate($cliente->rules(), $cliente->feedback());
+
+        }
+
+        $cliente->fill($request->all());
+        $cliente->save();
+
+        return response()->json($cliente, 204);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $cliente = $this->cliente->find($id)->delete();
-        return redirect()->route('cliente.index');
+        if (!$cliente) {
+            return response()->json(['Erro:' => 'Cliente não existe']);
+        }
+        $cliente->delete;
     }
 }
