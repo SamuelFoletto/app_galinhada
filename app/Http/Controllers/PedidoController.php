@@ -82,7 +82,13 @@ class PedidoController extends Controller
 
     public function show(string $id)
     {
-        //
+        $pedidos = $this->pedido->find($id);
+        $produtos = Produto::all();
+        $clientes = Cliente::all();
+        $forma_pagamento = FormaPagamento::all();
+        $statusAtual = StatusPedido::find(1);
+        return view('app.pedido.show', ['pedidos' => $pedidos,'clientes' => $clientes, 'produtos' => $produtos, 'forma_pagamento' => $forma_pagamento, 'statusAtual' => $statusAtual->status_pedido_atual]);
+
     }
 
     public function edit(string $id)

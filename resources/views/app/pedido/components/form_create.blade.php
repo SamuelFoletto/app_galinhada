@@ -62,9 +62,11 @@
                     </div>
 
                     <input type="hidden" name="status" value="{{ $statusAtual }}">
+
+
+                <button type="submit" class="btn btn-primary mt-4 w-100">Criar Pedido</button>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-4">Criar Pedido</button>
 
             </form>
 

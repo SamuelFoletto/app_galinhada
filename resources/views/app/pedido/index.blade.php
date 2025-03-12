@@ -22,7 +22,7 @@
                     Nº. Pedido
                 </div>
 
-                <div class="col col-lg-3 fw-bolder" >
+                <div class="col col-lg-2 fw-bolder" >
                     Cliente
                 </div>
 
@@ -30,11 +30,14 @@
                     Prato
                 </div>
 
-                <div class="col col-lg-2 fw-bolder" >
+                <div class="col col-lg-1 fw-bolder" >
                     Região
                 </div>
-                <div class="col col-lg-2 fw-bolder" >
+                <div class="col col-lg-1 fw-bolder" >
                     Status
+                </div>
+                <div class="col col-lg-2 fw-bolder" >
+                    Data Pedido
                 </div>
                 <div class="col col-md-auto fw-bolder" >
                 </div>
@@ -49,7 +52,7 @@
                         {{$pedido->id}}
                     </div>
 
-                    <div class="col col-lg-3 " >
+                    <div class="col col-lg-2 " >
                         {{$pedido->cliente->nome}}
                     </div>
 
@@ -57,16 +60,20 @@
                         {{$pedido->produto->nome_produto}}
                     </div>
 
-                    <div class="col col-lg-2" >
+                    <div class="col col-lg-1" >
                         {{$pedido->cliente->regiao->nome_regiao}}
                     </div>
 
-                    <div class="col col-lg-2" >
+                    <div class="col col-lg-1" >
                         {{$pedido->status}}
                     </div>
 
+                    <div class="col col-lg-2" >
+                        {{$pedido->created_at->format('d/m H:i')}}
+                    </div>
+
                     <div class=" col-lg-1">
-                        <a href=""><button class="btn btn-success fw-bold btn-sm">Visualizar</button></a>
+                        <a href="{{route('pedido.show', $pedido -> id)}}"><button class="btn btn-success fw-bold btn-sm">Visualizar</button></a>
                     </div>
                     <div class=" col-lg-1 ">
                         <a href=""><button class="btn btn-warning fw-bold btn-sm">Editar</button></a>
