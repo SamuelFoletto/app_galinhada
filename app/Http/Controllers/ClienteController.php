@@ -37,7 +37,6 @@ class ClienteController extends Controller
 
     public function show(string $id)
     {
-        $cliente = Cliente::find($id);
         $cliente = $this->cliente->find($id);
         return view('app.cliente.show', ['cliente' => $cliente]);
     }

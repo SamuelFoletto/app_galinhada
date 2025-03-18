@@ -57,4 +57,14 @@ class Cliente extends Model
         return $this->belongsTo(Regiao::class, 'regiao_id', 'id');
     }
 
+    public function getEnderecoCompletoAttribute()
+    {
+        return sprintf(
+            '%s, %s - %s - %s',
+            $this->endereco,
+            $this->numero_casa,
+            $this->complemento ?? '',
+            $this->bairro
+        );
+    }
 }

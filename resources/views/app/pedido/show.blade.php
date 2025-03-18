@@ -40,9 +40,8 @@
                     </div>
                     <div class="mb-1" style="width: 500px;">
                         <label class="form-label">Forma de pagamento</label>
-                        <input type="text" class="form-control w-75" name="valor_total" value="{{$pedidos->formasPagamento->nome_forma_pagamento ?? ''}}" disabled>
+                        <input type="text" class="form-control w-75" name="valor_total" value="{{$pedidos->forma_pagamento->nome_forma_pagamento ?? ''}}" disabled>
                         {{$errors->first('valor_total') ?? ''}}
-                        {{$pedidos->forma_pagamento}}
                     </div>
                     <div class="mb-1" style="width: 500px;">
                         <label class="form-label">Status</label>
@@ -54,10 +53,22 @@
                 <div>
                     <h3>Dados da entrega</h3>
                     <div class="mb-1" style="width: 500px;">
+                        <label class="form-label">Endereço Completo</label>
+                        <input type="text" class="form-control w-75" name="enderecoCompleto" value="{{$enderecoCompleto}}" disabled>
+                        {{$errors->first('status') ?? ''}}
+                    </div>
+                    <div class="mb-1" style="width: 500px;">
+                        <label class="form-label">CEP</label>
+                        <input type="text" class="form-control w-75" name="cep" value="{{$pedidos->cliente->cep}}" disabled>
+                        {{$errors->first('status') ?? ''}}
+                    </div>
+                    <div class="mb-1" style="width: 500px;">
                         <label class="form-label">Região</label>
                         <input type="text" class="form-control w-75" name="nome_regiao" value="{{$pedidos->cliente->regiao->nome_regiao ?? ''}}" disabled>
                         {{$errors->first('nome_regiao') ?? ''}}
                     </div>
+
+
                 </div>
 
 

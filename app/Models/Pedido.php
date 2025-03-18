@@ -16,7 +16,7 @@ class Pedido extends Model
         'quantidade',
         'valor_total',
         'data_pedido',
-        'forma_pagamento',
+        'forma_pagamento_id',
         'status'
 
     ];
@@ -37,7 +37,7 @@ class Pedido extends Model
             'cliente_id' => 'required',
             'produto_id' => 'required',
             'quantidade' => 'required',
-            'forma_pagamento' => 'required',
+            'forma_pagamento_id' => 'required',
         ];
     }
 
@@ -62,8 +62,8 @@ class Pedido extends Model
         return $this->hasOne('App\Models\StatusPedido', 'status', 'id');
     }
 
-    public function formaPagamento(){
-        return $this->belongsTo('App\Models\FormaPagamento', 'forma_pagamento', 'id');
+    public function forma_pagamento(){
+        return $this->belongsTo('App\Models\FormaPagamento', 'forma_pagamento_id', 'id');
     }
 
 
